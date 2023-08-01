@@ -16,6 +16,10 @@ on:
 jobs:
   # This workflow contains a single job called "pr_review_for_log"
   pr_review_for_log:
+    
+    # Permission to write on pr
+    permissions: write-all
+    
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -24,10 +28,18 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
       
-      - name: print-diff
+      - name: print-diff for log info
         shell: bash
         run: |
           git fetch origin main
-          git diff origin/main..HEAD > mydiff
+          git diff origin/main..HEAD | grep "^[+]" | while read -r row; do if [[ "$row" =~ ^"+++" ]]; then file=$row; else echo "$file $row"; fi;  done | cut -d"+" -f4,5 | sed "s/+//g" | cut -c3- | grep -i "log.info(" > mydiff
           echo "mydiff = "
-          cat mydiff
+          # cat mydiff
+      
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            cat mydiff
+          reactions: eyes, rocket
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
