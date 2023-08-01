@@ -38,13 +38,7 @@ jobs:
           echo "echo mydiff"
           echo $mydiff
           echo "==============================="
-          echo -e "infoLst=[$mydiff]"
-          echo "cat infoLst = "
-          cat infoLst
-          
-          echo "echo infoLst = "
-          echo $infoLst
-          
+          echo -e "infoLst=$mydiff"
           echo -e "infoLst=$mydiff" >> $GITHUB_OUTPUT
           
           
@@ -54,6 +48,6 @@ jobs:
         uses: thollander/actions-comment-pull-request@v2
         with:
           message: |
-            ${{steps.id_info_lst.outputs.infoLst}}
+            ${{ steps.id_info_lst.outputs.infoLst }}
           reactions: eyes, rocket
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
