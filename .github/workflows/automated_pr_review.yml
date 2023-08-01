@@ -33,12 +33,23 @@ jobs:
         shell: bash
         run: |
           git fetch origin main
-          git diff origin/main..HEAD | grep "^[+]" | while read -r row; do if [[ "$row" =~ ^"+++" ]]; then file=$row; else echo "$file $row"; fi;  done | cut -d"+" -f4,5 | sed "s/+//g" | cut -c3- | grep -i "log.info(" > mydiff
-          echo "mydiff = "
+          mydiff=$(git diff origin/main..HEAD | grep "^[+]" | while read -r row; do if [[ "$row" =~ ^"+++" ]]; then file=$row; else echo "$file $row"; fi;  done | cut -d"+" -f4,5 | sed "s/+//g" | cut -c3- | grep -i "log.info(")
+          echo "cat mydiff = "
           cat mydiff
+          
+          echo "echo mydiff"
+          echo $mydiff
+          echo "==============================="
+          echo -e "infoLst=[$mydiff]"
+          echo "cat infoLst = "
+          cat infoLst
+          
+          echo "echo infoLst = "
+          echo $infoLst
+          
           echo -e "infoLst=$mydiff" >> $GITHUB_OUTPUT
-          # echo "infoLst = "
-          # cat infoLst
+          
+          
         id: id_info_lst
         
       - name: Comment PR
