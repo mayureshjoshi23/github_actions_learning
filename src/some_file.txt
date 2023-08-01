@@ -1,1 +1,4 @@
 hello world!
+some new changes added to the file
+log.info("Swagger Target Folder {} ", swaggerTargetFolder.toString());
+something new
