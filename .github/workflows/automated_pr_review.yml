@@ -11,8 +11,7 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-env: 
-  MYDIFF: ""
+
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -34,14 +33,16 @@ jobs:
         shell: bash
         run: |
           git fetch origin main
-          git diff origin/main..HEAD | grep "^[+]" | while read -r row; do if [[ "$row" =~ ^"+++" ]]; then file=$row; else echo "$file $row"; fi;  done | cut -d"+" -f4,5 | sed "s/+//g" | cut -c3- | grep -i "log.info(" > mydiff
-          echo "mydiff = "
-          MYDIFF="$mydiff"
-      
+          git diff origin/main..HEAD | grep "^[+]" | while read -r row; do if [[ "$row" =~ ^"+++" ]]; then file=$row; else echo "$file $row"; fi;  done | cut -d"+" -f4,5 | sed "s/+//g" | cut -c3- | grep -i "log.info(" > infoLst
+          echo "infoLst = "
+          cat infoLst
+          echo '::set-output name=INFO_LST::$infoLst'
+        id: id_info_lst
+        
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v2
         with:
           message: |
-            $MYDIFF
+            ${{steps.id_info_lst.outputs.INFO_LST}}
           reactions: eyes, rocket
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
