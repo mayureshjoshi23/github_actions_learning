@@ -26,7 +26,7 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: find all added or modified info logs
         run: |
-          RESULT=$(git diff | grep "^[+]" | while read -r row; do if [[ "$row" =~ ^"+++" ]]; then file=$row; else echo "$file $row"; fi;  done | cut -d"+" -f4,5 | sed "s/+//g" | cut -c3- | grep -i "log.info(");
+          Some changes
 
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v2
