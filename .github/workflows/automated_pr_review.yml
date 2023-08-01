@@ -33,10 +33,10 @@ jobs:
         shell: bash
         run: |
           git fetch origin main
-          git diff origin/main..HEAD | grep "^[+]" | while read -r row; do if [[ "$row" =~ ^"+++" ]]; then file=$row; else echo "$file $row"; fi;  done | cut -d"+" -f4,5 | sed "s/+//g" | cut -c3- | grep -i "log.info(" > infoLst
-          echo "infoLst = "
-          cat infoLst
-          echo '::set-output name=INFO_LST::$infoLst'
+          # > infoLst
+          # echo "infoLst = "
+          # cat infoLst
+          echo '::set-output name=INFO_LST::$(git diff origin/main..HEAD | grep "^[+]" | while read -r row; do if [[ "$row" =~ ^"+++" ]]; then file=$row; else echo "$file $row"; fi;  done | cut -d"+" -f4,5 | sed "s/+//g" | cut -c3- | grep -i "log.info(")'
         id: id_info_lst
         
       - name: Comment PR
