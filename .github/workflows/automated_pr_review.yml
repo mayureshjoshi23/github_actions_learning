@@ -34,9 +34,7 @@ jobs:
         run: |
           git fetch origin main
           mydiff=$(git diff origin/main..HEAD | grep "^[+]" | while read -r row; do if [[ "$row" =~ ^"+++" ]]; then file=$row; else echo "$file $row"; fi;  done | cut -d"+" -f4,5 | sed "s/+//g" | cut -c3- | grep -i "log.info(")
-          echo "cat mydiff = "
-          cat mydiff
-          
+                    
           echo "echo mydiff"
           echo $mydiff
           echo "==============================="
