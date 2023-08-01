@@ -26,7 +26,7 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: find all added or modified info logs
         run: |
-          "Some thing new"
+          echo "Some changes"
 
 
       - name: Comment PR
@@ -34,4 +34,3 @@ jobs:
         with:
           message: |
             echo "log.info()\n============"
-            echo "$RESULT"
