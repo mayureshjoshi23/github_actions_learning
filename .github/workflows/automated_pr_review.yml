@@ -24,10 +24,10 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
       
-      - name: print-diff
+      - name: print-diff for log info
         shell: bash
         run: |
           git fetch origin main
-          git diff origin/main..HEAD > mydiff
+          git diff origin/main..HEAD | grep "^[+]" | while read -r row; do if [[ "$row" =~ ^"+++" ]]; then file=$row; else echo "$file $row"; fi;  done | cut -d"+" -f4,5 | sed "s/+//g" | cut -c3- | grep -i "log.info(" > mydiff
           echo "mydiff = "
           cat mydiff
