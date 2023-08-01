@@ -26,7 +26,7 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: find all added or modified info logs
         run: |
-          Some changes
+          echo "Some changes"
 
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v2
