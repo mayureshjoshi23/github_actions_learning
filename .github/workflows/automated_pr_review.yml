@@ -36,13 +36,14 @@ jobs:
           git fetch origin main
           mydiff=$(git diff origin/main..HEAD | grep "^[+]" | while read -r row; do if [[ "$row" =~ ^"+++" ]]; then file=$row; else echo "$file ===>>> $row"; fi;  done | cut -d"+" -f4,5 | sed "s/+//g" | cut -c3- | grep -i "log.info(")
           
-          finalOutput=$(echo -e "INFO LOGS added or updated in PR \n===============================\n\n"$mydiff"\n===============================\n")
+          # finalOutput=$(echo -e "INFO LOGS added or updated in PR \n===============================\n\n"$mydiff"\n===============================\n")
           
-          echo -e "$finalOutput"
-          echo -e "infoLst=$finalOutput"
-          echo -e "infoLst=$finalOutput" >> $GITHUB_OUTPUT
+          #echo -e "$finalOutput"
+          #echo -e "infoLst=$finalOutput"
+          #echo -e "infoLst=$finalOutput" >> $GITHUB_OUTPUT
           
-          
+          echo -e "infoLst=$mydiff"
+          #echo -e "infoLst=$mydiff" >> $GITHUB_OUTPUT          
         
         
       - name: Comment PR
