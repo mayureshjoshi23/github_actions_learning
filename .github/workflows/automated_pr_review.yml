@@ -33,16 +33,18 @@ jobs:
         shell: bash
         run: |
           git fetch origin main
-          # > infoLst
+          git diff origin/main..HEAD | grep "^[+]" | while read -r row; do if [[ "$row" =~ ^"+++" ]]; then file=$row; else echo "$file $row"; fi;  done | cut -d"+" -f4,5 | sed "s/+//g" | cut -c3- | grep -i "log.info(" > infoLst
+          echo "Output \n $infoLst"
+          echo "infoLst=$infoLst" >> $GITHUB_OUTPUT
           # echo "infoLst = "
           # cat infoLst
-          echo '::set-output name=INFO_LST::$(git diff origin/main..HEAD | grep "^[+]" | while read -r row; do if [[ "$row" =~ ^"+++" ]]; then file=$row; else echo "$file $row"; fi;  done | cut -d"+" -f4,5 | sed "s/+//g" | cut -c3- | grep -i "log.info(")'
+          
         id: id_info_lst
         
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v2
         with:
           message: |
-            ${{steps.id_info_lst.outputs.INFO_LST}}
+            ${{steps.id_info_lst.outputs.infoLst}}
           reactions: eyes, rocket
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
