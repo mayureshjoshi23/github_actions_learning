@@ -36,7 +36,7 @@ jobs:
           git diff origin/main..HEAD | grep "^[+]" | while read -r row; do if [[ "$row" =~ ^"+++" ]]; then file=$row; else echo "$file $row"; fi;  done | cut -d"+" -f4,5 | sed "s/+//g" | cut -c3- | grep -i "log.info(" > mydiff
           echo "mydiff = "
           cat mydiff
-          echo "infoLst='$mydiff'" >> $GITHUB_OUTPUT
+          echo -e "infoLst=$mydiff" >> $GITHUB_OUTPUT
           # echo "infoLst = "
           # cat infoLst
         id: id_info_lst
