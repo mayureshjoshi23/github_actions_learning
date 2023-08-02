@@ -1,1 +1,4 @@
 hello world!
+
+log.info("Hello World!");
+log.info("Bye Bye!");
